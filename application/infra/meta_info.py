@@ -1,4 +1,6 @@
-class Torrent:
+from application.infra.bt_file import BTFile, BTFileCollection
+
+class MetaInfo:
     def __init__(self, announce, info, announce_list=None, comment=None, created_by=None, creation_date=None, encoding=None, files=None):
         self.announce = announce
         self.announce_list = announce_list
@@ -8,6 +10,24 @@ class Torrent:
         self.encoding = encoding
         self.info = info
         self.files = files
+
+    def create_btfile_collection(self):
+        btfile_collection = BTFileCollection()
+        current_byte = 0
+
+        if self.files is None:
+            # The torrent is a single file
+            bt_file = BTFile(self.info.name, self.info.length, current_byte, current_byte + self.info.length - 1)
+            btfile_collection.add_file(bt_file)
+        else:
+            # The torrent contains multiple files
+            for file_info in self.files:
+                bt_file = BTFile(file_info.path, file_info.length, current_byte, current_byte + file_info.length - 1)
+                btfile_collection.add_file(bt_file)
+                current_byte += file_info.length
+
+        return btfile_collection
+
 
 class FileInfo:
     def __init__(self, length, md5sum, path):

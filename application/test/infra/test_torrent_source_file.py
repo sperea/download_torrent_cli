@@ -1,7 +1,7 @@
 
 import unittest
 from datetime import datetime
-from application.infra.torrent_source_file import Torrent, TorrentInfo, TorrentFile, Tracker
+from application.infra.meta_info import MetaInfo, TorrentInfo, TorrentFile, Tracker
 
 class TestTorrent(unittest.TestCase):
 
@@ -12,7 +12,7 @@ class TestTorrent(unittest.TestCase):
         file2 = TorrentFile("folder2/file2.txt", 2000)
         self.torrent_info = TorrentInfo("Test Torrent", 1024, b"abcd" * 20, length=3000, files=[file1, file2])
         files = [file1, file2 ]
-        self.torrent = Torrent("http://example.com/announce", self.torrent_info, announce_list=[self.tracker1, self.tracker2], comment="Test Comment", created_by="Test Creator", creation_date=datetime.now(), encoding="UTF-8", files=files)
+        self.torrent = MetaInfo("http://example.com/announce", self.torrent_info, announce_list=[self.tracker1, self.tracker2], comment="Test Comment", created_by="Test Creator", creation_date=datetime.now(), encoding="UTF-8", files=files)
 
 
     def test_announce(self):

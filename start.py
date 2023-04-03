@@ -28,6 +28,9 @@ def main(args):
         torrent = ParseTorrentFile(torrent_file).execute()
         print(str(TorrentInfo(torrent)))
 
+        bt_files = torrent.create_btfile_collection()
+        print(str(bt_files))
+
     else:
         print("No torrent file found.")
 

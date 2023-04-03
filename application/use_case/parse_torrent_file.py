@@ -1,5 +1,5 @@
 import urllib.parse
-from application.infra.torrent_source_file import TorrentInfo, Torrent, TorrentFile, Tracker, FileInfo
+from application.infra.meta_info import TorrentInfo, MetaInfo, TorrentFile, Tracker, FileInfo
 
 
 class BencodeDecoder:
@@ -88,7 +88,7 @@ class ParseTorrentFile:
             private=info_dict.get("private"),
         )
 
-        torrent = Torrent(
+        torrent = MetaInfo(
             announce=Tracker(torrent_dict["announce"].decode()),
             announce_list=announce_list,
             comment=torrent_dict.get("comment"),
