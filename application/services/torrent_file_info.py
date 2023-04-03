@@ -1,4 +1,4 @@
-
+import unittest
 
 class TorrentInfo:
     def __init__(self, torrent_file):
@@ -25,7 +25,7 @@ class TorrentInfo:
                 self.info += f" ---> {file.path} ({file.length} bytes)\n"
         else:
             self.info += f"{self.torrent_file.info.name} ({self.torrent_file.info.length} bytes)\n"
-
+        self.info += "=== END TORRENT INFO ===\n"
 
     def __str__(self):
         return self.info

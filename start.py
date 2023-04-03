@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 
-from application.services.get_torrent_file_info import TorrentInfo
+from application.services.torrent_file_info import TorrentInfo
 from application.use_case.parse_torrent_file import ParseTorrentFile
 
 

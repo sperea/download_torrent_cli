@@ -4,6 +4,7 @@ from datetime import datetime
 from application.infra.torrent_source_file import Torrent, TorrentInfo, TorrentFile, Tracker
 
 class TestTorrent(unittest.TestCase):
+
     def setUp(self):
         self.tracker1 = Tracker("http://tracker1.example.com/announce")
         self.tracker2 = Tracker("http://tracker2.example.com/announce")
