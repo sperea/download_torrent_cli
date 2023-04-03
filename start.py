@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 
-from application.use_case.print_torrent_file_info import TorrentInfoPrinter
+from application.services.get_torrent_file_info import TorrentInfo
 from application.use_case.parse_torrent_file import ParseTorrentFile
 
 
@@ -25,9 +25,8 @@ def main(args):
         print("Running with the following parameters:")
         print(f"Torrent file: {args.t}")
 
-        torrent = ParseTorrentFile(torrent_file)
-        printer = TorrentInfoPrinter(torrent.execute())
-        printer.execute()
+        torrent = ParseTorrentFile(torrent_file).execute()
+        print(str(TorrentInfo(torrent)))
 
     else:
         print("No torrent file found.")
