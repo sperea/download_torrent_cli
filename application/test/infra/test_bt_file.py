@@ -32,13 +32,13 @@ class TestBTFileCollection(unittest.TestCase):
 
     def test_read(self):
         for bt_file in self.btfile_collection.get_files():
-            data = self.btfile_collection.read(bt_file.start_byte, bt_file.size, self.test_dir)
+            data = self.btfile_collection.read_offset(bt_file.start_byte, bt_file.size, self.test_dir)
             self.assertEqual(data, self.files_data[bt_file.path])
 
     def test_write(self):
         new_data = b"modified"
         for bt_file in self.btfile_collection.get_files():
-            self.btfile_collection.write(bt_file.start_byte, new_data, self.test_dir)
+            self.btfile_collection.write_offset(bt_file.start_byte, new_data, self.test_dir)
             with open(os.path.join(self.test_dir, bt_file.path), "rb") as f:
                 updated_data = f.read()
             self.assertEqual(updated_data[:len(new_data)], new_data)

@@ -17,12 +17,12 @@ class MetaInfo:
 
         if self.files is None:
             # The torrent is a single file
-            bt_file = BTFile(self.info.name, self.info.length, current_byte, current_byte + self.info.length - 1)
+            bt_file = BTFile(self.info.name, self.info.length)
             btfile_collection.add_file(bt_file)
         else:
             # The torrent contains multiple files
             for file_info in self.files:
-                bt_file = BTFile(file_info.path, file_info.length, current_byte, current_byte + file_info.length - 1)
+                bt_file = BTFile(file_info.path, file_info.length)
                 btfile_collection.add_file(bt_file)
                 current_byte += file_info.length
 
