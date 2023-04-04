@@ -68,6 +68,9 @@ class Tracker:
 
 class TorrentInfo:
     def __init__(self, name, piece_length, pieces, length=None, files=None, private=None):
+        # Initialize TorrentInfo object with name, size of each piece, list of piece hashes, 
+        # total length of the torrent (optional), list of FileInfo objects (optional), 
+        # and whether the torrent is private (optional)
         self.name = name
         self.piece_length = piece_length
         self.pieces = pieces
@@ -81,6 +84,7 @@ class TorrentInfo:
 
 class TorrentFile:
     def __init__(self, path, length):
+        # Initialize TorrentFile object with the path and length of the file
         self.path = path
         self.length = length
 
