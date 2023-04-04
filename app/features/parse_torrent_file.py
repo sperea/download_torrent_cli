@@ -24,12 +24,13 @@ Please give credit to the author and the website when using or redistributing th
 import urllib.parse
 from app.repositories.meta_info import TorrentInfo, MetaInfo, TorrentFile, Tracker, FileInfo
 
-
+# BencodeDecoder class is responsible for decoding bencoded data.
 class BencodeDecoder:
     def __init__(self, data, index=0):
         self.data = data
         self.index = index
 
+    # The decode method determines the appropriate decoding method to use.
     def decode(self):
         if self.data[self.index] == ord(b'd'):
             return self.decode_dictionary()
@@ -40,6 +41,7 @@ class BencodeDecoder:
         else:
             return self.decode_string()
 
+    # Decodes a bencoded dictionary.
     def decode_dictionary(self):
         dct = {}
         self.index += 1
@@ -50,6 +52,7 @@ class BencodeDecoder:
         self.index += 1
         return dct
 
+    # Decodes a bencoded list.
     def decode_list(self):
         lst = []
         self.index += 1
@@ -59,12 +62,14 @@ class BencodeDecoder:
         self.index += 1
         return lst
 
+    # Decodes a bencoded integer.
     def decode_integer(self):
         end = self.data.index(b'e', self.index)
         integer = int(self.data[self.index + 1:end])
         self.index = end + 1
         return integer
 
+    # Decodes a bencoded string.
     def decode_string(self):
         start = self.index
         while chr(self.data[self.index]).isdigit():
@@ -76,18 +81,21 @@ class BencodeDecoder:
         self.index = end
         return string
 
-
+# ParseTorrentFile class parses a torrent file and extracts relevant information.
 class ParseTorrentFile:
     def __init__(self, file_path):
         self.file_path = file_path
 
     def execute(self):
+        # Read the torrent file.
         with open(self.file_path, "rb") as file:
             data = file.read()
 
+        # Decode the bencoded data.
         decoder = BencodeDecoder(data)
         torrent_dict = decoder.decode()
 
+        # Extract information from the torrent dictionary.
         info_dict = torrent_dict["info"]
         files = []
         if "files" in info_dict:
@@ -102,6 +110,7 @@ class ParseTorrentFile:
                 for announce_url in announce_group:
                     announce_list.append(Tracker(announce_url.decode()))
 
+        # Create TorrentInfo object.
         torrent_info = TorrentInfo(
             name=info_dict["name"].decode(),
             piece_length=info_dict["piece length"],
@@ -111,6 +120,7 @@ class ParseTorrentFile:
             private=info_dict.get("private"),
         )
 
+        # Create MetaInfo object.
         torrent = MetaInfo(
             announce=Tracker(torrent_dict["announce"].decode()),
             announce_list=announce_list,
