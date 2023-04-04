@@ -1,6 +1,10 @@
 # Command Line Interface (CLI) Torrent Downloader
 This is a command-line interface (CLI) Torrent Downloader developed entirely in Python without using external libraries. It provides a simple and lightweight way to download and manage torrents.
 
+## BitTorrent Protocol
+
+This project is an implementation of the BitTorrent protocol for file sharing. The BitTorrent protocol is a popular peer-to-peer (P2P) file-sharing protocol that allows users to distribute large files efficiently without putting too much strain on a single server. For more information on the BitTorrent protocol, please refer to the [official BitTorrent specification](https://www.bittorrent.org/beps/bep_0003.html).
+
 ## Features
 * Download and manage torrents from a local .torrent file
 * Display information about the torrent file
