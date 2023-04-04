@@ -1,6 +1,6 @@
 import unittest
 import os
-from application.use_case.parse_torrent_file import BencodeDecoder, ParseTorrentFile
+from app.features.parse_torrent_file import BencodeDecoder, ParseTorrentFile
 
 
 class TestBencodeDecoder(unittest.TestCase):

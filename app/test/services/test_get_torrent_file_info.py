@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from application.services.torrent_file_info import TorrentInfo
+from app.services.torrent_file_info import TorrentInfo
 
 
 class TestTorrentInfo(unittest.TestCase):

@@ -22,7 +22,7 @@ Please give credit to the author and the website when using or redistributing th
 """
 
 import urllib.parse
-from application.infra.meta_info import TorrentInfo, MetaInfo, TorrentFile, Tracker, FileInfo
+from app.repositories.meta_info import TorrentInfo, MetaInfo, TorrentFile, Tracker, FileInfo
 
 
 class BencodeDecoder:

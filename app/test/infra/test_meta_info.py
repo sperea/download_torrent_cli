@@ -1,18 +1,20 @@
 
 import unittest
-from application.infra.bt_file import BTFile, BTFileCollection
+from app.repositories.bt_file import BTFile, BTFileCollection
 import pytest
 from unittest.mock import Mock
 from datetime import datetime
-from application.infra.meta_info import MetaInfo, TorrentInfo, TorrentFile, Tracker
-from application.infra.meta_info import TorrentInfo
-from application.infra.meta_info import MetaInfo
-from application.infra.meta_info import TorrentFile
-from application.infra.meta_info import Tracker
+from app.repositories.meta_info import MetaInfo, TorrentInfo, TorrentFile, Tracker
+from app.repositories.meta_info import TorrentInfo
+from app.repositories.meta_info import MetaInfo
+from app.repositories.meta_info import TorrentFile
+from app.repositories.meta_info import Tracker
 
 
 class TestTorrent(unittest.TestCase):
+    """
 
+    """
     def setUp(self):
         self.tracker1 = Tracker("http://tracker1.example.com/announce")
         self.tracker2 = Tracker("http://tracker2.example.com/announce")

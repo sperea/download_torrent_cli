@@ -1,9 +1,8 @@
 import unittest
 import tempfile
 import shutil
-import random
 import os
-from application.infra.bt_file import BTFileCollection, BTFile
+from app.repositories.bt_file import BTFileCollection, BTFile
 
 
 class TestBTFileCollection(unittest.TestCase):

@@ -25,8 +25,8 @@ import os
 import sys
 import argparse
 
-from application.services.torrent_file_info import TorrentInfo
-from application.use_case.parse_torrent_file import ParseTorrentFile
+from app.services.torrent_file_info import TorrentInfo
+from app.features.parse_torrent_file import ParseTorrentFile
 
 
 def parse_arguments():

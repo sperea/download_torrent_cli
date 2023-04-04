@@ -21,7 +21,7 @@ Website: https://sperea.es
 Please give credit to the author and the website when using or redistributing this code.
 """
 
-from application.infra.bt_file import BTFile, BTFileCollection
+from app.repositories.bt_file import BTFile, BTFileCollection
 
 # Define the MetaInfo class to store torrent metadata
 class MetaInfo:
