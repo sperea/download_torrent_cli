@@ -1,7 +1,21 @@
+
+
+
+"""
+This code defines two classes: BTFile and BTFileCollection. The purpose of this code is to manage the reading and writing of files in a torrent file collection, as well as to compute SHA-1 hashes for data verification. This is particularly useful in applications that work with torrent files, such as torrent download clients.
+"""
+
 import os
 import hashlib
 
 class BTFile:
+    """
+    The BTFile class represents an individual file within a torrent file and has the following properties:
+    - path: The file path in the file system.
+    - size: The file size in bytes.
+    - start_byte: The starting byte in the torrent byte range.
+    - end_byte: The ending byte in the torrent byte range.
+    """
     def __init__(self, path, size, start_byte, end_byte):
         self.path = path
         self.size = size
@@ -10,6 +24,15 @@ class BTFile:
 
 
 class BTFileCollection:
+    """
+    The BTFileCollection class represents a collection of BTFile objects and has the following functions:
+        - add_file: Adds a BTFile object to the collection.
+        - get_files: Returns the list of BTFile objects in the collection.
+        - read_offset: Reads a specific amount of bytes (amount) from a specific position (offset) in the files of the collection. Returns the read data as a bytearray object.
+        - write_offset: Writes data at a specific position (offset) in the files of the collection. The data is written at the specified position across all appropriate files in the collection.
+        - all_sha1_split_every: Computes and returns a list of SHA-1 hashes for each piece_length-byte block of data across all files in the collection. This is useful for data integrity verification in torrent download applications.
+        - total_size: Returns the total size in bytes of all files in the collection.
+    """
     def __init__(self, files=None):
         self.files = files or []
 
