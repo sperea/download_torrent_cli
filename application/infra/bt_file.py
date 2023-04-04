@@ -63,8 +63,13 @@ class BTFileCollection:
         return self.files
 
     def read_offset(self, offset, amount, output_directory):
+        # Initialize empty bytearray for data 
+        # and current offset to 0
         data = bytearray()
         current_offset = 0
+
+        # Loop through each file in the torrent and check 
+        # if the requested data is in the file
 
         for bt_file in self.get_files():
             if (bt_file.start_byte <= offset <= bt_file.end_byte) or (bt_file.start_byte <= offset + amount - 1 <= bt_file.end_byte):
@@ -77,39 +82,45 @@ class BTFileCollection:
                     data.extend(file_data)
 
             current_offset += bt_file.size
-
+        # Return the data as a bytearray object
         return data
 
     def write_offset(self, offset, data, output_directory):
+        # Initialize remaining_data to the entire data 
+        # and current offset to 0
         remaining_data = data
         current_offset = 0
 
         for bt_file in self.get_files():
             if (bt_file.start_byte <= offset <= bt_file.end_byte) or (bt_file.start_byte <= offset + len(data) - 1 <= bt_file.end_byte):
+                # Calculate the start and end positions within the file
                 file_start = max(0, offset - current_offset)
                 file_end = min(bt_file.end_byte + 1, offset + len(data) - current_offset)
-
+                # Write the data to the file
                 with open(os.path.join(output_directory, bt_file.path), 'rb+') as f:
                     f.seek(file_start)
                     f.write(remaining_data[:file_end - file_start])
                     f.flush()
                     remaining_data = remaining_data[file_end - file_start:]
-
+                # If all the data has been written, exit the loop
                 if not remaining_data:
                     break
 
             current_offset += bt_file.size
 
     def all_sha1_split_every(self, piece_length, output_directory):
+        # Initialize current offset to 0 
+        # and an empty list for the SHA1 hashes
         current_offset = 0
         sha1_list = []
-
+        # Loop through the torrent and compute a SHA1 hash 
+        # for each piece of data of length piece_length
         while current_offset < self.total_size():
             data = self.read_offset(current_offset, piece_length, output_directory)
             sha1_hash = hashlib.sha1(data).digest()
             sha1_list.append(sha1_hash)
             current_offset += piece_length
-
+        # Return the list of SHA1 hashes
         return sha1_list
 
     def total_size(self):
