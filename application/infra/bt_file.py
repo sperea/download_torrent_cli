@@ -24,12 +24,11 @@ class BTFileCollection:
         current_offset = 0
 
         for bt_file in self.get_files():
-            if bt_file.start_byte <= current_offset + amount <= bt_file.end_byte:
+            if (bt_file.start_byte <= offset <= bt_file.end_byte) or (bt_file.start_byte <= offset + amount - 1 <= bt_file.end_byte):
                 file_start = max(0, offset - current_offset)
-                file_end = min(bt_file.end_byte, offset + amount - current_offset)
+                file_end = min(bt_file.end_byte + 1, offset + amount - current_offset)
 
                 with open(os.path.join(output_directory, bt_file.path), 'rb') as f:
-
                     f.seek(file_start)
                     file_data = f.read(file_end - file_start)
                     data.extend(file_data)
@@ -43,9 +42,9 @@ class BTFileCollection:
         current_offset = 0
 
         for bt_file in self.get_files():
-            if bt_file.start_byte <= current_offset + len(data) <= bt_file.end_byte:
+            if (bt_file.start_byte <= offset <= bt_file.end_byte) or (bt_file.start_byte <= offset + len(data) - 1 <= bt_file.end_byte):
                 file_start = max(0, offset - current_offset)
-                file_end = min(bt_file.end_byte, offset + len(data) - current_offset)
+                file_end = min(bt_file.end_byte + 1, offset + len(data) - current_offset)
 
                 with open(os.path.join(output_directory, bt_file.path), 'rb+') as f:
                     f.seek(file_start)
