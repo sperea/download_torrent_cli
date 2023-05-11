@@ -3,7 +3,49 @@ import tempfile
 import shutil
 import os
 from app.repositories.bt_file import BTFileCollection, BTFile
+from base64 import encode, encodebytes
+import os
 
+
+torrent_file_mock = {
+    'name': 'test.mp4',
+    'piece length': 16384,
+    'pieces': [
+        '0123456789abcdef',
+        'fedcba9876543210',
+    ],
+    'files': [
+        {
+            'length': 1024,
+            'offset': 0,
+        },
+        {
+            'length': 1024,
+            'offset': 1024,
+        },
+    ],
+}
+
+
+class BTFileTest(unittest.TestCase):
+
+    def test_init(self):
+        with open('test.torrent', 'wb') as f:
+            f.write(encodebytes.bencode(torrent_file_mock))
+
+        bt_file = BTFile('test.torrent', 1024, 0, 1024)
+        self.assertEqual(bt_file.path, 'test.torrent')
+        self.assertEqual(bt_file.size, 1024)
+        self.assertEqual(bt_file.start_byte, 0)
+        self.assertEqual(bt_file.end_byte, 1023)
+
+    def test_get_info_hash(self):
+        with open('test.torrent', 'wb') as f:
+            f.write(encodebytes.bencode(torrent_file_mock))
+
+        bt_file = BTFile('test.torrent', 1024, 0, 1024)
+        info_hash = bt_file.get_info_hash()
+        self.assertEqual(info_hash, '0123456789abcdef')
 
 class TestBTFileCollection(unittest.TestCase):
 
@@ -41,3 +83,5 @@ class TestBTFileCollection(unittest.TestCase):
             with open(os.path.join(self.test_dir, bt_file.path), "rb") as f:
                 updated_data = f.read()
             self.assertEqual(updated_data[:len(new_data)], new_data)
+
+

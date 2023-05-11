@@ -49,6 +49,7 @@ In the single file case, the name key is the name of a file, in the muliple file
 Text credit: https://wiki.theory.org/BitTorrentSpecification#Metainfo_File_Structure
 """
 
+from urllib import request
 from app.repositories.bt_file import BTFile, BTFileCollection
 
 # Define the MetaInfo class to store torrent metadata
@@ -93,6 +94,36 @@ class FileInfo:
 class Tracker:
     def __init__(self, url):
         self.url = url
+
+    def connect_to_tracker(self, info_hash):
+        # Create a connection to the tracker
+        connection = request.Request.get(self.url, params={'info_hash': info_hash})
+        if connection.status_code != 200:
+            raise Exception('Tracker connection failed.')
+        response_body = connection.content.decode('utf-8')
+        parsed_response = bencode.bdecode(response_body)
+        announce_url = parsed_response['announce']
+        return announce_url
+    
+
+    def download_piece(self, info_hash, piece_index, piece_length, announce_url):
+        # Create a connection to the announce URL
+        connection = request.get(announce_url, params={
+            'info_hash': info_hash,
+            'piece_index': piece_index,
+            'piece_length': piece_length,
+        })
+
+        # Check the response status code
+        if connection.status_code != 200:
+            raise Exception('Download failed.')
+
+        # Get the response body
+        response_body = connection.content
+
+        # Write the response body to a file
+        with open('piece-%d' % piece_index, 'wb') as f:
+            f.write(response_body)
 
 class TorrentInfo:
     def __init__(self, name, piece_length, pieces, length=None, files=None, private=None):
