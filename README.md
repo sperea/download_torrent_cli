@@ -1,4 +1,6 @@
 # Command Line Interface (CLI) Torrent Downloader
+#### Work in progress
+
 This is a command-line interface (CLI) Torrent Downloader developed entirely in Python without using external libraries. It provides a simple and lightweight way to download and manage torrents.
 
 ## BitTorrent Protocol
